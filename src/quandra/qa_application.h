@@ -33,9 +33,6 @@ int QA_API QApp_Init(void);
   */
 void QA_API QApp_Quit(void);
 
-/** Starts the message loop */
-void QA_API QApp_PumpEvents(struct SDL_Window *win);
-
 /** The the current thread sleep for at least <ms> milliseconds */
 void QA_API QApp_Sleep(int ms);
 

@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 include(../../cmake/FindSDL2.cmake)
+include(../../cmake/FindSDL2_image.cmake)
 
-include_directories(${SDL2_INCLUDE_DIR})
+include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIRS})
 
 set(q_inc 
 	qa_common.h
@@ -25,6 +26,6 @@ if(UNIX)
 	target_link_libraries(quandra pthread)
 endif()
 
-target_link_libraries(quandra ${SDL2_LIBRARY})
+target_link_libraries(quandra ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES})
 
 source_group("src" FILES ${q_inc} ${q_src})

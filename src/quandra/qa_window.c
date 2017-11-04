@@ -18,6 +18,7 @@
 
 #include <SDL.h>
 #include <SDL_events.h>
+#include <SDL_render.h>
 
 QA_EXPORT_SYMBOLS_BEGIN
 
@@ -30,10 +31,19 @@ struct SDL_Window* QWindow_Create(const char* title, int width, int height)
                            SDL_WINDOWPOS_CENTERED,
                            width,
                            height,
-                           SDL_WINDOW_HIDDEN);
+                           SDL_WINDOW_SHOWN);
     
     if(win == 0){
         SDL_Log("QWindow_Create() - Failed to create window, error: %s", SDL_GetError());
+        return 0;
+    }
+    
+    struct SDL_Renderer *renderer;
+    renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+    
+    if(renderer == 0){
+        SDL_Log("QWindow_Create() - Failed to create the renderer, error: %s", SDL_GetError());
+        return 0;
     }
     
     return win;
@@ -42,6 +52,11 @@ struct SDL_Window* QWindow_Create(const char* title, int width, int height)
 /******************************************************************/
 void QWindow_Destroy(struct SDL_Window *window)
 {
+    struct SDL_Renderer *renderer = SDL_GetRenderer(window);
+    
+    if(renderer != 0)
+        SDL_DestroyRenderer(renderer);
+        
     SDL_DestroyWindow(window);
 }
 
@@ -82,3 +97,8 @@ void QWindow_PumpEvents(struct SDL_Window *win)
 
 QA_EXPORT_SYMBOLS_END
 
+/******************************************************************/
+struct SDL_Renderer* QWindow_GetRenderer(struct SDL_Window *win)
+{
+    return SDL_GetRenderer(win);
+}

@@ -10,7 +10,6 @@ if __name__ == '__main__':
         sys.exit(0)
 
     window = QWindow('My Game', 800, 600)
-    window.show()
 
     window.pump_events()
 

@@ -22,6 +22,7 @@
 #pragma once
 
 struct SDL_Window;
+struct SDL_Renderer;
 
 /** Creates a new render window */
 struct SDL_Window* QA_API QWindow_Create(const char* title, int width, int height);
@@ -37,5 +38,10 @@ void QA_API QWindow_Hide(struct SDL_Window *window);
 
 /** Starts the message loop */
 void QA_API QWindow_PumpEvents(struct SDL_Window *win);
+
+/********************* Private API **********************/
+
+/* Get the renderer */
+struct SDL_Renderer* QWindow_GetRenderer(struct SDL_Window *win);
 
 #endif
