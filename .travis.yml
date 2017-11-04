@@ -6,7 +6,7 @@ os:
   - osx
 before_install:
   - brew update
-  - brew install libpng sdl2 sdl2_image cmake python3
+  - brew install sdl2 sdl2_image python3
 script: 
   - mkdir build
   - cd build
