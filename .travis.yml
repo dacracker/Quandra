@@ -3,28 +3,10 @@ compiler:
   - clang
   - gcc
 os:
-  - linux
   - osx
-addons:
-  apt:
-    packages:
-      - libpng-dev
 before_install:
-- |
-  if [[ $TRAVIS_OS_NAME != 'osx' ]]; then
-    wget https://www.libsdl.org/release/SDL2-2.0.7.tar.gz -O sdl2.tar.gz
-    tar xzf sdl2.tar.gz
-    pushd SDL2-* && ./configure && make && sudo make install && popd
-    wget -q https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.2.tar.gz
-    tar xzf SDL2_image-*.tar.gz
-    pushd SDL2_image-* && ./configure && make && sudo make install && popd
-    wget http://www.cmake.org/files/v3.9/cmake-3.9.5.tar.gz -O cmake.tar.gz
-    tar xzf cmake.tar.gz
-    pushd cmake-* && ./configure && make && sudo make install && popd
-  else
-    brew update
-    brew install libpng sdl2 sdl2_image cmake python3
-  fi
+  - brew update
+  - brew install libpng sdl2 sdl2_image cmake python3
 script: 
   - mkdir build
   - cd build
