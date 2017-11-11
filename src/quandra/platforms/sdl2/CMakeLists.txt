@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 
-include(../../../../cmake/FindSDL2.cmake)
-include(../../../../cmake/FindSDL2_image.cmake)
+find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
 
 include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIRS})
 

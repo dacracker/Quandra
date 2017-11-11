@@ -15,5 +15,8 @@ set(ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static_libs)
 
 include_directories("${PROJECT_BINARY_DIR}")
 
+# Include our custom cmake scripts
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/cmake")
+
 add_subdirectory(src/quandra)
 #add_subdirectory(src/qeditor)

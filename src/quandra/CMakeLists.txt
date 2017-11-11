@@ -35,6 +35,8 @@ set_target_properties(quandra PROPERTIES
 					  C_VISIBILITY_PRESET hidden
 					  POSITION_INDEPENDENT_CODE ON)
 
-target_link_libraries(quandra ${platform}_platform ${ICU_LIBRARIES})
+target_link_libraries(quandra 
+					  ${platform}_platform 
+					  ICU::uc ICU::io ICU::i18n)
 
 source_group("src" FILES ${q_inc} ${q_src})

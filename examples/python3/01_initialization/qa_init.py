@@ -9,6 +9,4 @@ if __name__ == '__main__':
     if qapp_init() != 0:
         sys.exit(1)
 
-    qa_printf('Testing qa_printf! ÅÅÄÄÖÅ\n')
-
     qapp_quit()

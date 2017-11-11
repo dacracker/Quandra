@@ -18,9 +18,6 @@
 #include "qa_platform_impl.h"
 
 #include <string.h>
-#include <unicode/uchar.h>
-
-UChar test;
 
 struct QApp {
     struct _qa_platform platform;
