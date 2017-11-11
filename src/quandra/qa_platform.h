@@ -20,6 +20,7 @@
 #pragma once
 
 #include "qa_compiler.h"
+#include "qa_types.h"
 
 /*
  Platform macros
@@ -27,15 +28,15 @@
  Windows: QA_OS_WIN32
  Windows 64-bit: QA_OS_WIN64
  
- Linux: NX_OS_LINUX
+ Linux: QA_OS_LINUX
  Linux 64-bit: QA_OS_LINUX64
  
- Mac OS X: NX_OS_MACOS
+ Mac OS X: QA_OS_MACOS
  Mac OS X 64-bit: QA_OS_MACOS64
  
- FreeBSD: NX_OS_FREEBSD
+ FreeBSD: QA_OS_FREEBSD
  FreeBSD 64-bit: QA_OS_FREEBSD64
- */
+*/
 
 /* Dection of Microsoft Windows */
 #if(defined(_WIN32) || defined(_WINDOWS))
@@ -81,6 +82,8 @@
 #   define QA_POINTER_SIZE 4
 #endif
 
+#define QA_HANDLE void*
+
 /* Library defines for exporting symbols (needed for Windows) */
 #ifdef QA_OS_WIN32
 #   define QA_EXPORT __declspec(dllexport)
@@ -100,9 +103,12 @@
 #endif
 
 #ifdef QA_STD_CPP
-#   define NX_EXTERN_C extern "C"
+#   define QA_EXTERN_C_BEGIN extern "C" {
+#   define QA_EXTERN_C_END }
+}
 #else
-#   define NX_EXTERN_C
+#   define QA_EXTERN_C_BEGIN
+#   define QA_EXTERN_C_END
 #endif
 
 #endif

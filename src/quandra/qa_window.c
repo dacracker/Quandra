@@ -15,90 +15,56 @@
  \***************************************************************************/
 
 #include "qa_window.h"
+#include "qa_platform_impl.h"
 
-#include <SDL.h>
-#include <SDL_events.h>
-#include <SDL_render.h>
+#include <string.h>
+#include <stdlib.h>
+
+struct qa_window{
+    struct _qa_window_impl impl;
+    QA_HANDLE handle;
+};
 
 QA_EXPORT_SYMBOLS_BEGIN
 
 /******************************************************************/
-struct SDL_Window* QWindow_Create(const char* title, int width, int height)
+struct qa_window* QA_API qa_window_create(const qa_char* title, qa_int32 width, qa_int32 height)
 {
-    struct SDL_Window *win;
-    win = SDL_CreateWindow(title,
-                           SDL_WINDOWPOS_CENTERED,
-                           SDL_WINDOWPOS_CENTERED,
-                           width,
-                           height,
-                           SDL_WINDOW_SHOWN);
+    struct qa_window *window = malloc(sizeof(struct qa_window));
+    memset(window,0,sizeof(struct qa_window));
     
-    if(win == 0){
-        SDL_Log("QWindow_Create() - Failed to create window, error: %s", SDL_GetError());
+    if(_qa_window_impl_init(&window->impl) != 0) {
+        free(window);
         return 0;
     }
     
-    struct SDL_Renderer *renderer;
-    renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+    window->handle = (*window->impl.create_window)(title,width,height);
     
-    if(renderer == 0){
-        SDL_Log("QWindow_Create() - Failed to create the renderer, error: %s", SDL_GetError());
+    if(window->handle == 0){
+        free(window);
         return 0;
     }
     
-    return win;
+    return window;
 }
 
 /******************************************************************/
-void QWindow_Destroy(struct SDL_Window *window)
+void QA_API qa_window_destroy(struct qa_window *window)
 {
-    struct SDL_Renderer *renderer = SDL_GetRenderer(window);
-    
-    if(renderer != 0)
-        SDL_DestroyRenderer(renderer);
-        
-    SDL_DestroyWindow(window);
+    (*window->impl.destroy_window)(window->handle);
 }
 
 /******************************************************************/
-void QWindow_Show(struct SDL_Window *window)
+void qa_window_show(struct qa_window *window)
 {
-    SDL_ShowWindow(window);
+    (*window->impl.show_window)(window);
 }
 
 /******************************************************************/
-void QWindow_Hide(struct SDL_Window *window)
+void qa_window_hide(struct qa_window *window)
 {
-    SDL_HideWindow(window);
-}
-
-/******************************************************************/
-void QWindow_PumpEvents(struct SDL_Window *win)
-{
-    SDL_Log("QWindow_PumpEvents() - Starting message loop");
-    
-    union SDL_Event ev;
-    SDL_bool quit = SDL_FALSE;
-    
-    while(quit != SDL_TRUE){
-        if(SDL_PollEvent(&ev)){
-            switch(ev.type){
-                case SDL_QUIT:
-                    quit = SDL_TRUE;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    
-    SDL_Log("QWindow_PumpEvents() - Message loop ended");
+    (*window->impl.hide_window)(window);
 }
 
 QA_EXPORT_SYMBOLS_END
 
-/******************************************************************/
-struct SDL_Renderer* QWindow_GetRenderer(struct SDL_Window *win)
-{
-    return SDL_GetRenderer(win);
-}

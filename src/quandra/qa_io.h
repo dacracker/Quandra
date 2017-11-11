@@ -14,34 +14,36 @@
  along with NyxEngine. If not, see <http://www.gnu.org/licenses/>.
  \***************************************************************************/
 
-#ifndef __QUANDRA_WINDOW_H__
-#define __QUANDRA_WINDOW_H__
+#ifndef __QUANDRA_IO_H__
+#define __QUANDRA_IO_H__
 
 #include "qa_common.h"
 
 #pragma once
 
-QA_EXTERN_C_BEGIN
+/************************* STD I/O API ***************************/
 
-struct qa_window;
+void QA_API qa_printf(const qa_char* fmt, ...);
 
-/** Creates a new render window
-  * Create one more more windows to present the content
-  * of your game. The window is hidden by default.
+/************************* FILE API ******************************/
+
+struct qa_file;
+
+struct qa_file* QA_API qa_fopen(const qa_char *file_path, const qa_char *perm, const qa_char* encoding);
+void QA_API qa_fclose(struct qa_file *file);
+
+/** Writes a UTF-8 encoded string to the file
+  * Returns the number of characters written to the file (not bytes)
   */
-struct qa_window* QA_API qa_window_create(const qa_char* title, qa_int32 width, qa_int32 height);
+qa_int32 QA_API qa_fwrite(struct qa_file *file, const qa_char *fmt, ...);
 
-/** Destroys a render window
-  * Every window must be destroyed before the application quits
-  */
-void QA_API qa_window_destroy(struct qa_window *window);
+/** Flushes the the write buffer to disk */
+void QA_API qa_fflush(struct qa_file *file);
 
-/** Presents the window to the user */
-void QA_API qa_window_show(struct qa_window *window);
+/** Returns true if the file pointer is a the end of the file */
+bool QA_API qa_feof(struct qa_file *file);
 
-/** Hides the window from the user */
-void QA_API qa_window_hide(struct qa_window *window);
-
-QA_EXTERN_C_END
+/** Set the file pointer to point at the beginning of the file */
+void QA_API qa_frewind(struct qa_file *file);
 
 #endif

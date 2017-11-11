@@ -12,9 +12,9 @@ if _qlibpath is None:
         print('FATAL ERROR: Failed to find the quena game engine')
         exit(1)
     else:
-        print('Found the Quandra Game Engine, debug version')
+        print('Found the Quandra Game Engine (debug version)')
 else:
-    print('Found the Quandra Game Engine, release version')
+    print('Found the Quandra Game Engine (release version)')
 
 _qandralib = CDLL(_qlibpath)
 

@@ -21,19 +21,21 @@
 
 #pragma once
 
-struct SDL_Window;
+QA_EXTERN_C_BEGIN
 
 /** Initialize the game engine. Note: You need to call this
-  *  function before you call any other function!
+  *  function before you call any other function! This function
+  * must only be called once.
   */
-int QA_API QApp_Init(void);
+qa_int32 QA_API qapp_init(void);
 
 /** Shutdown the game engine
   * This function must be called to cleanup game engine resources
   */
-void QA_API QApp_Quit(void);
+void QA_API qapp_quit(void);
 
-/** The the current thread sleep for at least <ms> milliseconds */
-void QA_API QApp_Sleep(int ms);
+qa_int32 QA_API qapp_exec(void);
+
+QA_EXTERN_C_END
 
 #endif

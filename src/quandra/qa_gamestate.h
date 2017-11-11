@@ -14,46 +14,24 @@
  along with NyxEngine. If not, see <http://www.gnu.org/licenses/>.
  \***************************************************************************/
 
-#include "qa_application.h"
-#include "qa_platform_impl.h"
+#ifndef __QUANDRA_GAMESTATE_H__
+#define __QUANDRA_GAMESTATE_H__
 
-#include <string.h>
-#include <unicode/uchar.h>
+#pragma once
 
-UChar test;
+union SDL_Event;
+struct SDL_Renderer;
 
-struct QApp {
-    struct _qa_platform platform;
-} qapp;
-
-QA_EXPORT_SYMBOLS_BEGIN
-
-/******************************************************************/
-qa_int32 qapp_init(void)
-{
-    memset(&qapp,0,sizeof(struct QApp));
+struct QGameState {
+    void (*OnEnter)(struct QGameState *self);
+    void (*OnExit)(struct QGameState *self);
+    /*
+    void (*OnKeyEvent)(struct QGameState *self, union SDL_Event *event);
+    void (*OnMouseEvent)(struct QGameState *self, union SDL_Event *event);
+    void (*OnMouseMove)(struct QGameState *self, union SDL_Event *event);
     
-    if(_qa_platform_init(&qapp.platform) != 0)
-        return 1;
-    
-    if((*qapp.platform.init)() != 0)
-        return 1;
-    
-    return 0;
-}
+    void (*OnUpdate)(struct QGameState *self, union SDL_Event *event);
+    void (*OnRender)(struct QGameState *self, struct SDL_Renderer *renderer);*/
+};
 
-/******************************************************************/
-void qapp_quit(void)
-{
-    (*qapp.platform.shutdown)();
-    
-    memset(&qapp,0,sizeof(struct QApp));
-}
-
-/******************************************************************/
-qa_int32 qapp_exec(void)
-{
-    return (*qapp.platform.exec)();
-}
-
-QA_EXPORT_SYMBOLS_END
+#endif

@@ -14,46 +14,37 @@
  along with NyxEngine. If not, see <http://www.gnu.org/licenses/>.
  \***************************************************************************/
 
-#include "qa_application.h"
-#include "qa_platform_impl.h"
+#ifndef __QUANDRA_PLATFORM_IMPL_H__
+#define __QUANDRA_PLATFORM_IMPL_H__
 
-#include <string.h>
-#include <unicode/uchar.h>
+#include "qa_platform.h"
 
-UChar test;
+#pragma once
 
-struct QApp {
-    struct _qa_platform platform;
-} qapp;
+/*
+                            WARNING!
+        This file is part of the game engine's private API. It should
+        _only_ be used by other parts of the engine itself.
+ */
 
-QA_EXPORT_SYMBOLS_BEGIN
-
-/******************************************************************/
-qa_int32 qapp_init(void)
-{
-    memset(&qapp,0,sizeof(struct QApp));
+struct _qa_platform {
+    int (*init)(void);
+    void (*shutdown)(void);
     
-    if(_qa_platform_init(&qapp.platform) != 0)
-        return 1;
-    
-    if((*qapp.platform.init)() != 0)
-        return 1;
-    
-    return 0;
-}
+    int (*exec)(void);
+};
 
-/******************************************************************/
-void qapp_quit(void)
-{
-    (*qapp.platform.shutdown)();
+// This function must be implemented by platform plugins
+extern int _qa_platform_init(struct _qa_platform *);
+
+struct _qa_window_impl {
+    QA_HANDLE (*create_window)(const char *title, int width, int height);
+    void (*destroy_window)(QA_HANDLE window);
     
-    memset(&qapp,0,sizeof(struct QApp));
-}
+    void (*show_window)(QA_HANDLE window);
+    void (*hide_window)(QA_HANDLE window);
+};
 
-/******************************************************************/
-qa_int32 qapp_exec(void)
-{
-    return (*qapp.platform.exec)();
-}
+extern int _qa_window_impl_init(struct _qa_window_impl *impl);
 
-QA_EXPORT_SYMBOLS_END
+#endif

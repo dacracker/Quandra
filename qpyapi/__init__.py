@@ -1,3 +1,3 @@
 from .qa_dynlib import _qa_bind
-from .qa_application import QApp_Init, QApp_Quit, QApp_Sleep
-from .qa_window import QWindow
+from .qa_application import qapp_init, qapp_quit
+from .qa_io import qa_printf

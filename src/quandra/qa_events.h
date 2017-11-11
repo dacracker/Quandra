@@ -14,46 +14,44 @@
  along with NyxEngine. If not, see <http://www.gnu.org/licenses/>.
  \***************************************************************************/
 
-#include "qa_application.h"
-#include "qa_platform_impl.h"
+#ifndef __QUANDRA_EVENTS_H__
+#define __QUANDRA_EVENTS_H__
 
-#include <string.h>
-#include <unicode/uchar.h>
+#include "qa_common.h"
 
-UChar test;
+#pragma once
 
-struct QApp {
-    struct _qa_platform platform;
-} qapp;
-
-QA_EXPORT_SYMBOLS_BEGIN
-
-/******************************************************************/
-qa_int32 qapp_init(void)
-{
-    memset(&qapp,0,sizeof(struct QApp));
+enum qa_event_type {
+    QA_QUIT,
     
-    if(_qa_platform_init(&qapp.platform) != 0)
-        return 1;
+    QA_KEYUP,
+    QA_KEYDOWN,
     
-    if((*qapp.platform.init)() != 0)
-        return 1;
+    QA_MOUSEMOTION,
+    QA_MOUSEUP,
+    QA_MOUSEDOWN
+};
+
+struct qa_quit_event {
+    qa_uint32 type; // QA_QUIT
+};
+
+enum qa_key_state {
+    QA_PRESSED,
+    QA_RELEASED
+};
+
+struct qa_keyboard_event{
+    qa_uint32 type; // QA_KEYUP or QA_KEYDOWN
+    qa_uint32 timestamp;
+    qa_key_state state; // QA_PRESSED or QA_RELEASED
     
-    return 0;
+};
+
+union qa_event {
+    qa_uint32 type;
+    struct qa_quit_event quit;
+    struct qa_keybord_event keyboard;
 }
 
-/******************************************************************/
-void qapp_quit(void)
-{
-    (*qapp.platform.shutdown)();
-    
-    memset(&qapp,0,sizeof(struct QApp));
-}
-
-/******************************************************************/
-qa_int32 qapp_exec(void)
-{
-    return (*qapp.platform.exec)();
-}
-
-QA_EXPORT_SYMBOLS_END
+#endif

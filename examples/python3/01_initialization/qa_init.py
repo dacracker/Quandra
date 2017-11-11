@@ -6,13 +6,9 @@ sys.path.append(sys.path[0] + "/../../../")
 from qpyapi import *
 
 if __name__ == '__main__':
-    if QApp_Init() != 0:
-        sys.exit(0)
+    if qapp_init() != 0:
+        sys.exit(1)
 
-    window = QWindow('My Game', 800, 600)
+    qa_printf('Testing qa_printf! ÅÅÄÄÖÅ\n')
 
-    window.pump_events()
-
-    window.destroy()
-
-    QApp_Quit()
+    qapp_quit()

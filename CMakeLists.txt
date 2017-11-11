@@ -11,6 +11,8 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 # And we want all out libs to be in the same folderas the executables
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
+set(ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static_libs)
+
 include_directories("${PROJECT_BINARY_DIR}")
 
 add_subdirectory(src/quandra)

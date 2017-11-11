@@ -19,7 +19,6 @@
 #define __QUANDRA_COMMON_H__
 
 #include "qa_platform.h"
-#include "qa_types.h"
 
 #pragma once
 

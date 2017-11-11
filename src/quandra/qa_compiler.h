@@ -31,7 +31,7 @@
 
 /* Using clang? */
 #ifdef __clang__
-#    define NX_CC_CLANG
+#    define QA_CC_CLANG
 #endif
 
 /* Is C90 supported by this compiler? */
